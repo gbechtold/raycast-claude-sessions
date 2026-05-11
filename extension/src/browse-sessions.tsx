@@ -25,28 +25,50 @@ function parseLimit(raw: string | undefined): number {
 }
 
 async function loadSessions(rootPath: string, limit: number): Promise<Session[]> {
+  const t0 = performance.now();
   const files = await listJsonlFiles(rootPath);
+  const t1 = performance.now();
+  console.log(`[claude-sessions] discover: ${(t1 - t0).toFixed(0)}ms — ${files.length} JSONLs total`);
+
   if (files.length === 0) return [];
 
   // Sort by mtime DESC, then trim to limit before parsing — saves work on cold start.
   files.sort((a, b) => b.mtime - a.mtime);
   const head = files.slice(0, limit);
 
-  const results = await Promise.all(
+  // allSettled so a single hanging parse can't block the whole list.
+  // Each file gets a 3s safety timeout (parseSession itself should take <50ms).
+  const results = await Promise.allSettled(
     head.map(async (file) => {
       const uuid = path.basename(file.path, ".jsonl");
       const cached = await getCachedSession(uuid, file.mtime);
       if (cached) return cached;
 
-      const session = await parseSession(file.path, file.mtime);
+      const session = await Promise.race<Session | null>([
+        parseSession(file.path, file.mtime),
+        new Promise<null>((resolve) => setTimeout(() => resolve(null), 3000)),
+      ]);
       if (session) {
-        await setCachedSession(uuid, session, file.mtime);
+        void setCachedSession(uuid, session, file.mtime);
       }
       return session;
     }),
   );
 
-  return results.filter((s): s is Session => s !== null);
+  const sessions: Session[] = [];
+  let failed = 0;
+  for (const r of results) {
+    if (r.status === "fulfilled" && r.value !== null) {
+      sessions.push(r.value);
+    } else if (r.status === "rejected") {
+      failed++;
+    }
+  }
+  const t2 = performance.now();
+  console.log(
+    `[claude-sessions] parsed: ${(t2 - t1).toFixed(0)}ms — ${sessions.length} successful, ${head.length - sessions.length - failed} empty, ${failed} failed`,
+  );
+  return sessions;
 }
 
 export default function BrowseSessions() {
