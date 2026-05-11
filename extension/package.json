@@ -1,0 +1,83 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "claude-sessions",
+  "title": "Claude Sessions",
+  "description": "Browse and resume Claude Code sessions from iTerm2 or Terminal.app. Lists all past sessions from ~/.claude/projects with the first user prompt as a sprechender title.",
+  "icon": "command-icon.png",
+  "author": "gbechtold",
+  "license": "MIT",
+  "categories": [
+    "Developer Tools",
+    "Productivity"
+  ],
+  "platforms": [
+    "macOS"
+  ],
+  "commands": [
+    {
+      "name": "browse-sessions",
+      "title": "Browse Claude Sessions",
+      "subtitle": "Claude Code",
+      "description": "List and resume Claude Code sessions from ~/.claude/projects.",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "terminalApp",
+      "title": "Terminal App",
+      "description": "Which terminal app to open when resuming a session.",
+      "type": "dropdown",
+      "required": false,
+      "default": "iterm2",
+      "data": [
+        {
+          "title": "iTerm2",
+          "value": "iterm2"
+        },
+        {
+          "title": "Terminal.app",
+          "value": "terminal"
+        }
+      ]
+    },
+    {
+      "name": "sessionLimit",
+      "title": "Session Limit",
+      "description": "Maximum number of sessions to load (10–500).",
+      "type": "textfield",
+      "required": false,
+      "default": "50"
+    },
+    {
+      "name": "jsonlRootPath",
+      "title": "JSONL Root Path",
+      "description": "Where to look for Claude Code session JSONLs. Default: ~/.claude/projects.",
+      "type": "textfield",
+      "required": false,
+      "default": "~/.claude/projects"
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.85.0",
+    "@raycast/utils": "^1.18.0"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.11",
+    "@types/node": "^22.10.0",
+    "@types/react": "^18.3.28",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3",
+    "typescript": "^5.6.3"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "npx @raycast/api@latest publish"
+  },
+  "overrides": {
+    "@types/react": "^18.3.28"
+  }
+}
