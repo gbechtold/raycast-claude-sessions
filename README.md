@@ -4,7 +4,9 @@
 
 Lists all your past Claude Code sessions from `~/.claude/projects/*/*.jsonl` with the actual first user prompt as title — search, filter, and resume any session in iTerm2 or Terminal.app with a single keystroke.
 
-![CI](https://github.com/gbechtold/raycast-claude-sessions/actions/workflows/ci.yml/badge.svg)
+[![CI](https://github.com/gbechtold/raycast-claude-sessions/actions/workflows/ci.yml/badge.svg)](https://github.com/gbechtold/raycast-claude-sessions/actions/workflows/ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![macOS](https://img.shields.io/badge/platform-macOS-blue)](https://www.raycast.com)
 
 ## Why
 
