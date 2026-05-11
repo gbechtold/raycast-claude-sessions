@@ -5,6 +5,8 @@ import { Session } from "./types";
 
 const MAX_TITLE_LENGTH = 90;
 const MAX_LINES_SCANNED = 200;
+/** Hard byte cap — stop reading once we've consumed this many bytes even if we haven't hit MAX_LINES_SCANNED. */
+const MAX_BYTES_SCANNED = 1024 * 1024; // 1 MB
 /** Cap full message length to keep Raycast LocalStorage compact. Long prompts get a "…" tail. */
 const MAX_FIRST_MESSAGE_LENGTH = 4000;
 
@@ -29,6 +31,7 @@ export async function parseSession(jsonlPath: string, mtime: number): Promise<Se
 
     const rl = readline.createInterface({ input: stream, crlfDelay: Infinity });
     let lineNo = 0;
+    let bytesScanned = 0;
     let resolved = false;
 
     const cleanup = (result: Session | null) => {
@@ -41,7 +44,8 @@ export async function parseSession(jsonlPath: string, mtime: number): Promise<Se
 
     rl.on("line", (line) => {
       lineNo++;
-      if (lineNo > MAX_LINES_SCANNED) {
+      bytesScanned += line.length + 1; // +1 for newline
+      if (lineNo > MAX_LINES_SCANNED || bytesScanned > MAX_BYTES_SCANNED) {
         cleanup(null);
         return;
       }

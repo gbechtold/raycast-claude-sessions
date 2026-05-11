@@ -50,6 +50,10 @@ async function walkDir(dir: string, results: DiscoveredFile[]): Promise<void> {
   }
 
   for (const entry of entries) {
+    // Skip sub-agent run logs — they live in `<session-uuid>/subagents/` and aren't user-resumable sessions.
+    // They also tend to be large (10–40 MB) and slow the parser without adding value.
+    if (entry.isDirectory() && entry.name === "subagents") continue;
+
     const full = path.join(dir, entry.name);
     if (entry.isDirectory()) {
       await walkDir(full, results);

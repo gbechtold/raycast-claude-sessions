@@ -4,7 +4,11 @@
 Native Raycast Extension, die alle Claude Code Sessions aus `~/.claude/projects/*/*.jsonl` als suchbare Liste mit sprechenden Titeln präsentiert und per Action in iTerm2/Terminal mit `claude --resume <uuid>` wieder aufnimmt.
 
 ## Status
-**v0.1 in Entwicklung** (gestartet 2026-05-11)
+**v0.1 fertig + Store-PR Draft** (gestartet + abgeschlossen 2026-05-11)
+
+- GitHub: https://github.com/gbechtold/raycast-claude-resume (public, MIT, CI grün)
+- Raycast Store PR: https://github.com/raycast/extensions/pull/27804 (Draft, wartet auf "Ready for review")
+- Session-Log: `session-logs/2026-05-11-raycast-extension-mvp.md`
 
 ## Stack
 - **Typ**: Raycast Extension (TypeScript/React)
@@ -43,7 +47,10 @@ Native Raycast Extension, die alle Claude Code Sessions aus `~/.claude/projects/
 - Raycast Docs: https://developers.raycast.com/
 
 ## Offene Tasks
-Siehe TaskList in Claude Code Session — 17 Tasks (T0-T16).
+Alle 17 Plan-Tasks (T0–T16) abgeschlossen. Nächster Schritt liegt beim User:
+- PR auf "Ready for review" stellen (https://github.com/raycast/extensions/pull/27804)
+- Optional: Loom-Screencast für schnelleren Review
+- Optional: Lokalen Ordner `103-Raycast-Claude-Sessions/` → `103-Raycast-Claude-Resume/` umbenennen
 
 ## Lokale Befehle
 ```bash
