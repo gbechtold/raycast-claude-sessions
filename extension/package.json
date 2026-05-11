@@ -1,8 +1,8 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "claude-sessions",
-  "title": "Claude Sessions",
-  "description": "Browse and resume Claude Code sessions from iTerm2 or Terminal.app. Lists all past sessions from ~/.claude/projects with the first user prompt as a sprechender title.",
+  "name": "claude-resume",
+  "title": "Claude Resume",
+  "description": "Browse every Claude Code session by its actual first prompt, then resume any one in iTerm2 or Terminal with a single keystroke. Reads the JSONL conversation logs under ~/.claude/projects directly, so every session shows up — not just the project directories.",
   "icon": "command-icon.png",
   "author": "gbechtold",
   "license": "MIT",
@@ -16,9 +16,9 @@
   "commands": [
     {
       "name": "browse-sessions",
-      "title": "Browse Claude Sessions",
-      "subtitle": "Claude Code",
-      "description": "List and resume Claude Code sessions from ~/.claude/projects.",
+      "title": "Browse and Resume",
+      "subtitle": "Claude Resume",
+      "description": "List every Claude Code session and resume the one you pick in iTerm or Terminal.",
       "mode": "view"
     }
   ],

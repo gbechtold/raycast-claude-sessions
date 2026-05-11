@@ -1,12 +1,13 @@
-# Claude Sessions Changelog
+# Claude Resume Changelog
 
 ## [Initial Version] - {PR_MERGE_DATE}
 
-- Browse all Claude Code sessions from `~/.claude/projects/*/*.jsonl`
-- Search across session title, working directory, and session ID
-- Detail view shows the full first user message + metadata (UUID, CWD, timestamp, JSONL path)
-- Resume action opens iTerm2 or Terminal.app via AppleScript and runs `claude --resume <uuid>`
-- Copy actions for resume command, session ID, working directory, and log file path
+- Browse every Claude Code session by reading `~/.claude/projects/*/*.jsonl` directly
+- Each list item shows the actual first user prompt as title — sprechender than UUIDs
+- Search across title, working directory, and session ID
+- Detail view shows the full first user message + metadata (UUID, CWD, timestamp, log path)
+- Resume action runs `claude --resume <uuid>` in iTerm2 or Terminal.app via AppleScript
+- Copy actions for resume command, session identifier, working directory, log file path
 - Show log file in Finder; open in default editor
-- mtime-based cache for warm-reload performance
-- Configurable preferences: terminal app, session limit (10–500), JSONL root path
+- mtime-based cache for warm-reload performance (< 100ms with 1000+ sessions)
+- Preferences: terminal app, session limit (10–500), JSONL root path

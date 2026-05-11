@@ -1,73 +1,50 @@
-# raycast-claude-sessions
+# raycast-claude-resume
 
-> Native Raycast Extension to browse and resume Claude Code sessions.
+> Native Raycast Extension to browse and resume Claude Code sessions by their first prompt.
 
-Lists all your past Claude Code sessions from `~/.claude/projects/*/*.jsonl` with the actual first user prompt as title — search, filter, and resume any session in iTerm2 or Terminal.app with a single keystroke.
+Indexes every JSONL conversation log under `~/.claude/projects/*/*.jsonl`, surfaces the actual first user message as title, and reopens any session in iTerm2 or Terminal with `claude --resume <uuid>`.
 
-[![CI](https://github.com/gbechtold/raycast-claude-sessions/actions/workflows/ci.yml/badge.svg)](https://github.com/gbechtold/raycast-claude-sessions/actions/workflows/ci.yml)
+[![CI](https://github.com/gbechtold/raycast-claude-resume/actions/workflows/ci.yml/badge.svg)](https://github.com/gbechtold/raycast-claude-resume/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![macOS](https://img.shields.io/badge/platform-macOS-blue)](https://www.raycast.com)
 
-## Why
+## Why a separate tool from `claude-sessions`?
 
-Claude Code stores every session as a JSONL file under `~/.claude/projects/<encoded-cwd>/<uuid>.jsonl`. The CLI offers `claude --resume <uuid>`, but you need to know the UUID — and `~/.claude` has dozens or hundreds of sessions.
+The existing [`claude-sessions`](https://www.raycast.com/kud/claude-sessions) extension lists Claude's **project directories** (from `~/.claude.json`) and resumes them with `claude --continue` (= the most recent session in that project).
 
-This extension surfaces all of them as a Raycast list, with:
-- The first user message as a sprechender title
-- Relative time + CWD as accessories
-- Full first-message preview in the detail panel
-- One-keystroke resume in your preferred terminal
+`Claude Resume` works on a **finer granularity**: each individual conversation. If you started five different chats in the same project, you see five list items here — each labeled with what you actually asked. Then you resume that exact one by UUID.
 
-## Features (v0.1)
-- 🔍 **Search** across title, CWD, UUID
+Different mental models, both useful — they live side by side.
+
+## Features
+
+- 🔍 **Search** across title, working directory, and session ID
 - 📋 **Detail view** with the full first user message
-- ⌨️ **Resume** in iTerm2 or Terminal.app (configurable)
-- 📎 **Copy** UUID or full resume command
-- 📂 **Show JSONL** in Finder
-- ⚡ **Cached** with mtime-invalidation — warm reload < 2s
+- ⌨️ **Resume** in iTerm2 or Terminal.app
+- 📎 **Copy** resume command / UUID / working directory / log path
+- 📂 **Show log** in Finder or default editor
+- ⚡ Cached with mtime-invalidation — warm reload < 100ms with 1000+ sessions
 
 ## Installation
 
-### From source (until Raycast Store submission lands)
+### From source
 ```bash
-git clone https://github.com/gbechtold/raycast-claude-sessions.git
-cd raycast-claude-sessions/extension
+git clone https://github.com/gbechtold/raycast-claude-resume.git
+cd raycast-claude-resume/extension
 npm install
 npm run dev
 ```
 
-Raycast will detect the dev extension and add it under "Browse Claude Sessions".
+Raycast picks up the dev extension and adds "Browse and Resume" under "Claude Resume".
 
 ### From Raycast Store
-*Coming soon — submission planned after v0.1 stabilizes.*
-
-## Preferences
-
-| Preference | Default | Notes |
-|---|---|---|
-| Terminal App | iTerm2 | iTerm2 or Terminal.app |
-| Session Limit | 50 | Max sessions to load (10–500) |
-| JSONL Root Path | `~/.claude/projects` | Custom Claude installations |
-
-## Troubleshooting
-
-### "Failed to open iTerm2"
-macOS requires Automation permission for Raycast → iTerm2. Open:
-**System Settings → Privacy & Security → Automation → Raycast → enable iTerm**
-
-### `claude: command not found` in resumed session
-Your shell's PATH might not include the `claude` CLI in non-login subshells. Add it to `~/.zshrc` or `~/.bash_profile`:
-```bash
-export PATH="$HOME/.claude/local/bin:$PATH"
-```
-
-### Empty list / "No Claude Sessions Found"
-Verify the JSONL root path in Preferences. Default is `~/.claude/projects`. If you use a custom Claude Code install, update it.
+*Submission in progress.*
 
 ## Stack
-- TypeScript (strict mode)
+- TypeScript (strict)
 - React via Raycast API
 - Node 22.14+
+- macOS only
 
 ## License
 MIT © 2026 Guntram Bechtold

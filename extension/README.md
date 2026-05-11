@@ -1,29 +1,25 @@
-# Claude Sessions
+# Claude Resume
 
-> Browse and resume Claude Code sessions from Raycast.
+> Resume any Claude Code session by its first prompt, from Raycast.
 
-Lists every Claude Code session stored under `~/.claude/projects/*/*.jsonl`, surfaces the first user prompt as a sprechender title, and resumes any session in iTerm2 or Terminal.app with one keystroke.
+`Claude Resume` indexes every session log under `~/.claude/projects/*/*.jsonl`, shows the actual first user prompt as a sprechender title, and reopens the one you pick in iTerm2 or Terminal with `claude --resume <uuid>` — one keystroke, no UUID hunting.
+
+## Why a separate extension from "Claude Sessions"?
+
+[`claude-sessions`](https://www.raycast.com/kud/claude-sessions) lists Claude's **project directories** from `~/.claude.json` and resumes them with `claude --continue` (most recent session in that project).
+
+`Claude Resume` works on a **finer granularity**: each individual conversation log file. If you started five different chats in the same project, you see five list items here — each labeled with what you actually asked. Then you resume that exact one by UUID.
+
+Pick whichever matches your mental model. They live happily side-by-side.
 
 ## Features
 
-- 🔍 **Search** across title, working directory, and session ID
-- 📋 **Detail view** with the full first user message
+- 🔍 **Search** across title, working directory, session ID
+- 📋 **Detail panel** with the full first user message
 - ⌨️ **Resume in iTerm2 or Terminal.app** (configurable default)
-- 📎 **Copy** the resume command, session ID, working directory, or log file path
-- 📂 **Show log file in Finder** or open it in your default editor
-- ⚡ **Cached** with mtime-based invalidation — warm reload < 2s, cold cap ~5s for 50 sessions
-
-## How it works
-
-Claude Code stores every session as a JSONL file under `~/.claude/projects/<encoded-cwd>/<uuid>.jsonl`. The CLI offers `claude --resume <uuid>` to pick up where you left off — but you need to know the UUID, and `~/.claude` typically holds dozens or hundreds of sessions.
-
-This extension:
-
-1. Recursively scans the JSONL root (configurable, default `~/.claude/projects`)
-2. Streams each file and extracts the first user message with string content (skipping tool-result arrays)
-3. Sorts by mtime (newest first), respects your session limit (10–500)
-4. Renders a native Raycast list — search, detail panel, multiple actions per item
-5. On Resume: opens iTerm2 or Terminal via AppleScript and runs `cd <cwd> && claude --resume <uuid>`
+- 📎 **Copy** the resume command, session identifier, working directory, or log path
+- 📂 **Show log file in Finder** or open in default editor
+- ⚡ Cached with mtime-invalidation — warm reload < 100ms even with 1000+ sessions
 
 ## Preferences
 
@@ -36,31 +32,31 @@ This extension:
 ## Troubleshooting
 
 ### "Failed to open terminal"
-macOS requires Automation permission for Raycast to control iTerm2/Terminal. Open:
+macOS requires Automation permission for Raycast to control iTerm/Terminal. Open:
 **System Settings → Privacy & Security → Automation → Raycast → enable iTerm/Terminal**
 
-### `claude: command not found` in the resumed session
-Your shell's PATH might not include the `claude` CLI in non-login subshells. Make sure `claude` is in PATH via your shell rc-file, e.g.:
+### `claude: command not found` after resume
+The non-login shell that AppleScript spawns might not have `claude` in PATH. Make sure your `~/.zshrc` exports it:
 ```bash
 export PATH="$HOME/.claude/local/bin:$PATH"
 ```
 
-### Empty list / "No Claude Sessions Found"
+### Empty list
 - Verify the JSONL root path in preferences (default `~/.claude/projects`).
 - Start a session in Claude Code first — until you do, there are no JSONLs to list.
 - Check that the path exists: `ls ~/.claude/projects/`.
 
-## Limitations (v0.1)
+## Limitations
 
 - macOS only (Raycast itself is macOS-only)
-- Loads max 500 sessions for performance — increase via preferences if needed
-- Session title comes from the first user prompt with string content; tool-only sessions show "(empty session)"
+- Loads max 500 sessions — increase via preferences if needed
+- Sessions without a string-content first user message show as "(empty session)"
 
 ## Development
 
 ```bash
-git clone https://github.com/gbechtold/raycast-claude-sessions.git
-cd raycast-claude-sessions/extension
+git clone https://github.com/gbechtold/raycast-claude-resume.git
+cd raycast-claude-resume/extension
 npm install
 npm run dev    # Hot-reload in Raycast
 npm run build  # Verify build

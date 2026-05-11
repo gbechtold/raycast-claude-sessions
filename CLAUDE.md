@@ -11,7 +11,7 @@ Native Raycast Extension, die alle Claude Code Sessions aus `~/.claude/projects/
 - **Plattform**: macOS only
 - **Node**: 22.14+
 - **Lizenz**: MIT
-- **Repo**: github.com/gbechtold/raycast-claude-sessions (public OSS)
+- **Repo**: github.com/gbechtold/raycast-claude-resume (public OSS)
 - **Submission**: Raycast Store geplant (nach v0.1-Stabilisierung)
 
 ## Struktur
