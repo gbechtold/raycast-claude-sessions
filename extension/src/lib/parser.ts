@@ -67,7 +67,9 @@ export async function parseSession(jsonlPath: string, mtime: number): Promise<Se
       const trimmed = content.replace(/\s+/g, " ").trim();
       const title = trimmed.length > MAX_TITLE_LENGTH ? trimmed.slice(0, MAX_TITLE_LENGTH) + "…" : trimmed;
       const firstUserMessage =
-        content.length > MAX_FIRST_MESSAGE_LENGTH ? content.slice(0, MAX_FIRST_MESSAGE_LENGTH) + "\n\n…(truncated)" : content;
+        content.length > MAX_FIRST_MESSAGE_LENGTH
+          ? content.slice(0, MAX_FIRST_MESSAGE_LENGTH) + "\n\n…(truncated)"
+          : content;
 
       cleanup({
         uuid,

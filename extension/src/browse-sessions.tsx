@@ -146,7 +146,7 @@ function SessionItem(props: {
               content={formatResumeCommand(session.cwd, session.uuid)}
               shortcut={{ modifiers: ["cmd", "shift"], key: "c" }}
             />
-            <Action.CopyToClipboard title="Copy Session ID" content={session.uuid} />
+            <Action.CopyToClipboard title="Copy Session Identifier" content={session.uuid} />
             <Action.CopyToClipboard title="Copy Working Directory" content={session.cwd} />
             <Action.CopyToClipboard title="Copy Log File Path" content={session.jsonlPath} />
           </ActionPanel.Section>
